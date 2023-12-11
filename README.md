@@ -50,7 +50,7 @@ install the package using the following information:
 | Package information                                                                                                              ||
 |:-----------------|:---------------------------------------------------------------------------------------------------------------|
 | Package          | `TAG.NeuroAccess.package`                                                                                      |
-| Installation key | TBD                                                                                                            |
+| Installation key | `eCcfYJJTV4r/SQWsYK2wo/2aHCBp+ZuvrdaUOeTp0Sa2oz5CuCqbteKkUoHX1XXeNSppMqY+49WA17bcceb2e763824b855eb832a996a598` |
 | More Information | TBD                                                                                                            |
 
 ## Building, Compiling & Debugging
