@@ -34,7 +34,7 @@ if exists(Posted) then
 
 <p>
 <label for="OnboardingNeuron">Onboarding Neuron(R): (domain name)</label>  
-<input type="text" id="OnboardingNeuron" name="OnboardingNeuron" value='{{GetSetting("TAG.Identity.NeuroAccess.OnboardingNeuron","")}}' required title="Domain name of onboarding Neuron."/>
+<input type="text" id="OnboardingNeuron" name="OnboardingNeuron" value='{{GetSetting("TAG.Identity.NeuroAccess.OnboardingNeuron","id.tagroot.io")}}' required title="Domain name of onboarding Neuron."/>
 </p>
 
 <button type="submit" class="posButton">Apply</button>

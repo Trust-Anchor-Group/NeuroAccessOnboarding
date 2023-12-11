@@ -83,7 +83,7 @@ namespace TAG.Identity.NeuroAccess
 		/// </summary>
 		public static async Task InvalidateCurrent()
 		{
-			onboardingNeuron = await RuntimeSettings.GetAsync(OnboardingNeuronKey, string.Empty);
+			onboardingNeuron = await RuntimeSettings.GetAsync(OnboardingNeuronKey, "id.tagroot.io");
 		}
 
 		/// <summary>
