@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Waher.Content;
 using Waher.IoTGateway;
+using Waher.Persistence;
+using Waher.Persistence.Filters;
+using Waher.Persistence.Serialization;
 using Waher.Runtime.Inventory;
 using Waher.Runtime.Settings;
 
@@ -148,6 +151,29 @@ namespace TAG.Identity.NeuroAccess
 			}
 
 			if (string.IsNullOrEmpty(Jid) || (string.IsNullOrEmpty(EMail) && string.IsNullOrEmpty(PhoneNr)))
+				return new AuthenticationResult(false);
+
+			int i = Jid.IndexOf('@');
+			if (i < 0)
+				return new AuthenticationResult(false);
+
+			string Domain = Jid.Substring(i + 1);
+			if (!Gateway.IsDomain(Domain, true))
+				return new AuthenticationResult(false);
+
+			string Account = Jid.Substring(0, i);
+			GenericObject LastLogin = null;
+
+			foreach (GenericObject Obj in await Database.Find<GenericObject>("BrokerAccountLogins", 0, 1, new FilterFieldEqualTo("UserName", Account)))
+			{
+				LastLogin = Obj;
+				break;
+			}
+
+			if (LastLogin is null)
+				return new AuthenticationResult(false);
+
+			if (!LastLogin.TryGetFieldValue("RemoteEndpoint", out object Obj2) || !(Obj2 is string RemoteEndPoint))
 				return new AuthenticationResult(false);
 
 			Dictionary<string, object> Request = new Dictionary<string, object>()

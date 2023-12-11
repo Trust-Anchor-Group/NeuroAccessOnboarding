@@ -30,6 +30,7 @@ They can also be used standalone.
 | [Waher.Content](https://www.nuget.org/packages/Waher.Content/)                                     | Defines an architecture for working with Internet Content. |
 | [Waher.Events](https://www.nuget.org/packages/Waher.Events/)                                       | An extensible architecture for event logging in the application. |
 | [Waher.IoTGateway](https://www.nuget.org/packages/Waher.IoTGateway/)                               | Contains the [IoT Gateway](https://github.com/PeterWaher/IoTGateway) hosting environment. |
+| [Waher.Persistence](https://www.nuget.org/packages/Waher.Persistence/)                             | Abstraction layer for object databases. |
 | [Waher.Runtime.Inventory](https://www.nuget.org/packages/Waher.Runtime.Inventory/)                 | Maintains an inventory of type definitions in the runtime environment, and permits easy instantiation of suitable classes, and inversion of control (IoC). |
 | [Waher.Runtime.Settings](https://www.nuget.org/packages/Waher.Runtime.Settings/)                   | Provides easy access to persistent settings. |
 
