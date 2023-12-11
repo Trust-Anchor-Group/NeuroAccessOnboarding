@@ -3,7 +3,6 @@
 	<Assembly fileName="TAG.Identity.NeuroAccess.dll"/>
 	<Folder name="Root">
 		<Folder name="NeuroAccess">
-			<Content fileName="Settings.js"/>
 			<Content fileName="Settings.md"/>
 		</Folder>
 	</Folder>

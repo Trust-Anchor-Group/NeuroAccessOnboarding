@@ -46,7 +46,7 @@ namespace TAG.Identity.NeuroAccess
 		/// </summary>
 		public Task Start()
 		{
-			return LoadConfiguration();
+			return InvalidateCurrent();
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace TAG.Identity.NeuroAccess
 		/// <summary>
 		/// Loads service configuration.
 		/// </summary>
-		public static async Task LoadConfiguration()
+		public static async Task InvalidateCurrent()
 		{
 			onboardingNeuron = await RuntimeSettings.GetAsync(OnboardingNeuronKey, string.Empty);
 		}
