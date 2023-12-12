@@ -116,6 +116,9 @@ namespace TAG.Identity.NeuroAccess
 						HasJid = true;
 						break;
 
+					case "COUNTRY":
+						break;
+
 					default:
 						return Grade.NotAtAll;
 				}
@@ -141,6 +144,7 @@ namespace TAG.Identity.NeuroAccess
 			string EMail = null;
 			string PhoneNr = null;
 			string Jid = null;
+			string Country = null;
 
 			foreach (KeyValuePair<string, object> P in Identity)
 			{
@@ -159,6 +163,10 @@ namespace TAG.Identity.NeuroAccess
 
 					case "JID":
 						Jid = s;
+						break;
+
+					case "COUNTRY":
+						Country = s;
 						break;
 
 					default:
@@ -202,6 +210,9 @@ namespace TAG.Identity.NeuroAccess
 
 			if (!string.IsNullOrEmpty(PhoneNr))
 				Request["Nr"] = PhoneNr;
+
+			if (!string.IsNullOrEmpty(Country))
+				Request["Country"] = Country;
 
 			try
 			{
