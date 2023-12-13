@@ -5,7 +5,6 @@ Author: Peter Waher
 Master: /Master.md
 Cache-Control: max-age=0, no-cache, no-store
 JavaScript: /Sniffers/Sniffer.js
-JavaScript: Settings.js
 UserVariable: User
 Privilege: Admin.Identity.NeuroAccess
 Login: /Login.md
