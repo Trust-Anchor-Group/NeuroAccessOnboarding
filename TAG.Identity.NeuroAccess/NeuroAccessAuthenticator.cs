@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Waher.Content;
+using Waher.Events;
 using Waher.IoTGateway;
 using Waher.Persistence;
 using Waher.Persistence.Filters;
@@ -94,7 +95,10 @@ namespace TAG.Identity.NeuroAccess
 		public Grade Supports(IIdentityApplication Application)
 		{
 			if (string.IsNullOrWhiteSpace(onboardingNeuron) || Application.NrPhotos != 0)
+			{
+				Log.Debug("Not supported.");	// TODO: Remove
 				return Grade.NotAtAll;
+			}
 
 			bool HasEMail = false;
 			bool HasPhoneNr = false;
@@ -117,14 +121,29 @@ namespace TAG.Identity.NeuroAccess
 						break;
 
 					case "COUNTRY":
+					case "ID":
+					case "Account":
+					case "Provider":
+					case "State":
+					case "Created":
+					case "Updated":
+					case "From":
+					case "To":
 						break;
 
 					default:
+						Log.Debug("Property not supported: " + P.Key);    // TODO: Remove
 						return Grade.NotAtAll;
 				}
 			}
 
-			return (HasEMail || HasPhoneNr) && HasJid ? Grade.Ok : Grade.NotAtAll;
+			if ((HasEMail || HasPhoneNr) && HasJid)
+				return Grade.Ok;
+			else
+			{
+				Log.Debug("EMail or phone number not found, or JID not found.");	// TODO: Remove
+				return Grade.NotAtAll;
+			}
 		}
 
 		/// <summary>
@@ -136,10 +155,16 @@ namespace TAG.Identity.NeuroAccess
 		public async Task<IAuthenticationResult> IsValid(KeyValuePair<string, object>[] Identity, IEnumerable<IPhoto> Photos)
 		{
 			if (string.IsNullOrEmpty(onboardingNeuron))
+			{
+				Log.Debug("Not configured.");    // TODO: Remove
 				return new AuthenticationResult(ErrorType.Service, "Service not configured.");
+			}
 
 			foreach (IPhoto _ in Photos)
+			{
+				Log.Debug("Contains photos.");    // TODO: Remove
 				return new AuthenticationResult(ErrorType.Service, "Applications with photos cannot be authenticated using this service.");
+			}
 
 			string EMail = null;
 			string PhoneNr = null;
@@ -149,7 +174,7 @@ namespace TAG.Identity.NeuroAccess
 			foreach (KeyValuePair<string, object> P in Identity)
 			{
 				if (!(P.Value is string s))
-					return new AuthenticationResult(false);
+					s = P.Value?.ToString() ?? string.Empty;
 
 				switch (P.Key)
 				{
@@ -169,21 +194,41 @@ namespace TAG.Identity.NeuroAccess
 						Country = s;
 						break;
 
+					case "ID":
+					case "Account":
+					case "Provider":
+					case "State":
+					case "Created":
+					case "Updated":
+					case "From":
+					case "To":
+						break;
+
 					default:
+						Log.Debug("Property not supported: " + P.Key);    // TODO: Remove
 						return new AuthenticationResult(false);
 				}
 			}
 
 			if (string.IsNullOrEmpty(Jid) || (string.IsNullOrEmpty(EMail) && string.IsNullOrEmpty(PhoneNr)))
+			{
+				Log.Debug("EMail or phone number not found, or JID not found.");    // TODO: Remove
 				return new AuthenticationResult(false);
+			}
 
 			int i = Jid.IndexOf('@');
 			if (i < 0)
+			{
+				Log.Debug("Invalid JID.");    // TODO: Remove
 				return new AuthenticationResult(false);
+			}
 
 			string Domain = Jid.Substring(i + 1);
 			if (!Gateway.IsDomain(Domain, true))
+			{
+				Log.Debug("Invalid domain: " + Domain);    // TODO: Remove
 				return new AuthenticationResult(false);
+			}
 
 			string Account = Jid.Substring(0, i);
 			GenericObject LastLogin = null;
@@ -195,10 +240,16 @@ namespace TAG.Identity.NeuroAccess
 			}
 
 			if (LastLogin is null)
+			{
+				Log.Debug("Last login not found.");    // TODO: Remove
 				return new AuthenticationResult(false);
+			}
 
 			if (!LastLogin.TryGetFieldValue("RemoteEndpoint", out object Obj2) || !(Obj2 is string RemoteEndPoint))
+			{
+				Log.Debug("Remote endpoint not found.");    // TODO: Remove
 				return new AuthenticationResult(false);
+			}
 
 			Dictionary<string, object> Request = new Dictionary<string, object>()
 			{
@@ -220,12 +271,16 @@ namespace TAG.Identity.NeuroAccess
 					Gateway.Certificate, 10000, new KeyValuePair<string, string>("Accept", "application/json"));
 
 				if (!(Obj is bool Result))
+				{
+					Log.Debug("Unexpected response.");    // TODO: Remove
 					return new AuthenticationResult(ErrorType.Server, "Unexpected response received from onboarding server.");
+				}
 
 				return new AuthenticationResult(Result);
 			}
 			catch (Exception ex)
 			{
+				Log.Debug(ex.Message);    // TODO: Remove
 				return new AuthenticationResult(ErrorType.Server, ex.Message);
 			}
 		}
