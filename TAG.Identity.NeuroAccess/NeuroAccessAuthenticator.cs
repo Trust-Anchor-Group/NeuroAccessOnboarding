@@ -10,6 +10,7 @@ using Waher.Persistence.Filters;
 using Waher.Persistence.Serialization;
 using Waher.Runtime.Inventory;
 using Waher.Runtime.Settings;
+using Waher.Script;
 
 namespace TAG.Identity.NeuroAccess
 {
@@ -249,22 +250,22 @@ namespace TAG.Identity.NeuroAccess
 			}
 			catch (Exception ex)
 			{
-				return new AuthenticationResult(ErrorType.Server, ex.Message);
-			}
-
-			GenericObject Account = null;
-
-			foreach (GenericObject Obj in await Database.Find<GenericObject>("BrokerAccounts", 0, 1, new FilterFieldEqualTo("UserName", AccountName)))
-			{
-				Account = Obj;
-				break;
-			}
-
-			if (Account is null)
+				Log.Critical(ex);
 				return new AuthenticationResult(false);
+			}
 
-			Account["EMail"] = EMail;
-			await Database.Update(Account);
+			try
+			{
+				await Expression.EvalAsync(
+					"Account:=Waher.Service.IoTBroker.XmppServerModule.GetAccountAsync(" + Expression.ToString(AccountName) + ");" +
+					"Account.EMail:=" + Expression.ToString(EMail) + ";" +
+					"UpdateObject(Account)", new Variables());
+			}
+			catch (Exception ex)
+			{
+				Log.Critical(ex);
+				return new AuthenticationResult(false);
+			}
 
 			return new AuthenticationResult(true);
 		}
