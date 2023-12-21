@@ -207,10 +207,10 @@ namespace TAG.Identity.NeuroAccess
 			if (!Gateway.IsDomain(Domain, true))
 				return new AuthenticationResult(false);
 
-			string Account = Jid.Substring(0, i);
+			string AccountName = Jid.Substring(0, i);
 			GenericObject LastLogin = null;
 
-			foreach (GenericObject Obj in await Database.Find<GenericObject>("BrokerAccountLogins", 0, 1, new FilterFieldEqualTo("UserName", Account)))
+			foreach (GenericObject Obj in await Database.Find<GenericObject>("BrokerAccountLogins", 0, 1, new FilterFieldEqualTo("UserName", AccountName)))
 			{
 				LastLogin = Obj;
 				break;
@@ -244,12 +244,29 @@ namespace TAG.Identity.NeuroAccess
 				if (!(Obj is bool Result))
 					return new AuthenticationResult(ErrorType.Server, "Unexpected response received from onboarding server.");
 
-				return new AuthenticationResult(Result);
+				if (!Result)
+					return new AuthenticationResult(false);
 			}
 			catch (Exception ex)
 			{
 				return new AuthenticationResult(ErrorType.Server, ex.Message);
 			}
+
+			GenericObject Account = null;
+
+			foreach (GenericObject Obj in await Database.Find<GenericObject>("BrokerAccounts", 0, 1, new FilterFieldEqualTo("UserName", AccountName)))
+			{
+				Account = Obj;
+				break;
+			}
+
+			if (Account is null)
+				return new AuthenticationResult(false);
+
+			Account["EMail"] = EMail;
+			await Database.Update(Account);
+
+			return new AuthenticationResult(true);
 		}
 
 		#endregion
