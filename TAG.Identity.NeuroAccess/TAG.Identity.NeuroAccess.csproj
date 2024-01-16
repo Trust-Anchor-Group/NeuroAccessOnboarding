@@ -5,14 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Root\NeuroAccess\Settings.md" />
     <None Remove="TAG.Identity.NeuroAccess.manifest" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Root\NeuroAccess\Settings.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="TAG.Identity.NeuroAccess.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

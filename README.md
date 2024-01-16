@@ -62,11 +62,6 @@ repositories in different folders, but you need to update the build events accor
 [IoT Gateway](https://github.com/PeterWaher/IoTGateway), and make sure the compiled files of the `NeuroAccessOnboarding` 
 solution is run with it.
 
-### Configuring service
-
-You configure the service via the browser, by navigating to the `/NeuroAccess/Settings.md` resource. There you setup the domain
-of the Onboarding Neuron that will be used to authenticate requests.
-
 ### Gateway.config
 
 To simplify development, once the project is cloned, add a `FileFolder` reference

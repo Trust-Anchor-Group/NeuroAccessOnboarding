@@ -17,7 +17,7 @@ namespace TAG.Identity.NeuroAccess
 	/// <summary>
 	/// Service that authenticates Neuro-Access digital identity applications.
 	/// </summary>
-	public class NeuroAccessAuthenticator : IIdentityAuthenticatorService, IConfigurableModule
+	public class NeuroAccessAuthenticator : IIdentityAuthenticatorService, IModule
 	{
 		/// <summary>
 		/// Prefix for settings keys
@@ -27,7 +27,7 @@ namespace TAG.Identity.NeuroAccess
 		/// <summary>
 		/// Key for Onboarding neuron setting parameter.
 		/// </summary>
-		public static readonly string OnboardingNeuronKey = Prefix + ".OnboardingNeuron";
+		public static readonly string OnboardingNeuronKey = "Onboarding.DomainName";
 
 		/// <summary>
 		/// Onboarding Neuron host.
@@ -58,22 +58,6 @@ namespace TAG.Identity.NeuroAccess
 		{
 			onboardingNeuron = null;
 			return Task.CompletedTask;
-		}
-
-		#endregion
-
-		#region IConfigurableModule
-
-		/// <summary>
-		/// Gets references to configuration pages.
-		/// </summary>
-		/// <returns>Array of configuration page references.</returns>
-		public Task<IConfigurablePage[]> GetConfigurablePages()
-		{
-			return Task.FromResult(new IConfigurablePage[]
-			{
-				new ConfigurablePage("Neuro-Access", "/NeuroAccess/Settings.md", "Admin.Identity.NeuroAccess")
-			});
 		}
 
 		#endregion
