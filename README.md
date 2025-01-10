@@ -15,7 +15,7 @@ The solution contains the following C# projects:
 
 | Project                    | Framework         | Description |
 |:---------------------------|:------------------|:------------|
-| `TAG.Identity.NeuroAccess` | .NET Standard 2.0 | Service module for the [TAG Neuron](https://lab.tagroot.io/Documentation/Index.md), that authenticates Neuro-Access identity applications with the onboarding Neuron. |
+| `TAG.Identity.NeuroAccess` | .NET Standard 2.1 | Service module for the [TAG Neuron](https://lab.tagroot.io/Documentation/Index.md), that authenticates Neuro-Access identity applications with the onboarding Neuron. |
 
 ## Nugets
 
