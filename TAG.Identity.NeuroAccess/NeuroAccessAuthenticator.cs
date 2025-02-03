@@ -223,10 +223,11 @@ namespace TAG.Identity.NeuroAccess
 
 			try
 			{
-				object Obj = await InternetContent.PostAsync(new Uri("https://" + onboardingNeuron + "/ID/ValidateOnboarding.ws"), Request,
+				ContentResponse Content = await InternetContent.PostAsync(new Uri("https://" + onboardingNeuron + "/ID/ValidateOnboarding.ws"), Request,
 					Gateway.Certificate, 10000, new KeyValuePair<string, string>("Accept", "application/json"));
+				Content.AssertOk();
 
-				if (!(Obj is bool Result))
+				if (!(Content.Decoded is bool Result))
 					return new AuthenticationResult(ErrorType.Server, "Unexpected response received from onboarding server.");
 
 				if (!Result)
