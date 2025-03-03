@@ -204,7 +204,7 @@ namespace TAG.Identity.NeuroAccess
 			if (LastLogin is null)
 				return new AuthenticationResult(false);
 
-			if (!LastLogin.TryGetFieldValue("RemoteEndpoint", out object Obj2) || !(Obj2 is string RemoteEndPoint))
+			if (!LastLogin.TryGetFieldValue("RemoteEndPoint", out object Obj2) || !(Obj2 is string RemoteEndPoint))
 				return new AuthenticationResult(false);
 
 			Dictionary<string, object> Request = new Dictionary<string, object>()
