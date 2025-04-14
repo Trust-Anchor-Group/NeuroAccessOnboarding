@@ -181,7 +181,12 @@ namespace TAG.Identity.NeuroAccess
 					return;
 				}
 
-				if (!Result)
+				if (Result)
+				{
+					Application.ClaimValid("EMAIL", this);
+					Application.ClaimValid("PHONE", this);
+				}
+				else
 				{
 					Application.ClaimInvalid("EMAIL", "EMail or Phone Number invalid.", "en", "EMailOrPhoneInvalid", this);
 					Application.ClaimInvalid("PHONE", "EMail or Phone Number invalid.", "en", "EMailOrPhoneInvalid", this);
