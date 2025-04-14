@@ -82,43 +82,12 @@ namespace TAG.Identity.NeuroAccess
 			if (string.IsNullOrWhiteSpace(onboardingNeuron) || Application.NrPhotos != 0)
 				return Grade.NotAtAll;
 
-			bool HasEMail = false;
-			bool HasPhoneNr = false;
-			bool HasJid = false;
+			bool HasEMail = !string.IsNullOrEmpty(Application.PersonalInformation.EMail);
+			bool HasPhoneNr = !string.IsNullOrEmpty(Application.PersonalInformation.Phone);
+			bool HasJid = !string.IsNullOrEmpty(Application.PersonalInformation.Jid);
+			bool HasCountry = !string.IsNullOrEmpty(Application.PersonalInformation.Country);
 
-			foreach (KeyValuePair<string, object> P in Application.Claims)
-			{
-				switch (P.Key)
-				{
-					case "EMAIL":
-						HasEMail = true;
-						break;
-
-					case "PHONE":
-						HasPhoneNr = true;
-						break;
-
-					case "JID":
-						HasJid = true;
-						break;
-
-					case "COUNTRY":
-					case "ID":
-					case "Account":
-					case "Provider":
-					case "State":
-					case "Created":
-					case "Updated":
-					case "From":
-					case "To":
-						break;
-
-					default:
-						return Grade.NotAtAll;
-				}
-			}
-
-			if ((HasEMail || HasPhoneNr) && HasJid)
+			if ((HasEMail || HasPhoneNr) && HasJid && HasCountry)
 				return Grade.Ok;
 			else
 				return Grade.NotAtAll;
@@ -170,6 +139,18 @@ namespace TAG.Identity.NeuroAccess
 			if (!LastLogin.TryGetFieldValue("RemoteEndPoint", out object Obj2) || !(Obj2 is string RemoteEndPoint))
 			{
 				Application.ReportError("No login registered on Neuron.", "en", "NoLogin", ValidationErrorType.Client, this);
+				return;
+			}
+
+			if (string.IsNullOrEmpty(Application.PersonalInformation.Country))
+			{
+				Application.ReportError("Application does not contain country information.", "en", "MissingCountry", ValidationErrorType.Client, this);
+				return;
+			}
+
+			if (Application.PersonalInformation.Country.Length != 2)
+			{
+				Application.ClaimInvalid("COUNTRY", "Service not available in your country.", "en", "CountryNotSupported", this);
 				return;
 			}
 
