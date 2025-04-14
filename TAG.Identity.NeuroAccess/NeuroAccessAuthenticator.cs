@@ -88,7 +88,7 @@ namespace TAG.Identity.NeuroAccess
 			bool HasCountry = !string.IsNullOrEmpty(Application.PersonalInformation.Country);
 
 			if ((HasEMail || HasPhoneNr) && HasJid && HasCountry)
-				return Grade.Ok;
+				return Grade.Perfect;
 			else
 				return Grade.NotAtAll;
 		}
