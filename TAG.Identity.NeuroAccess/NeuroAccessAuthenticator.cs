@@ -185,6 +185,7 @@ namespace TAG.Identity.NeuroAccess
 				{
 					Application.ClaimValid("EMAIL", this);
 					Application.ClaimValid("PHONE", this);
+					Application.ClaimValid("COUNTRY", this);
 				}
 				else
 				{
