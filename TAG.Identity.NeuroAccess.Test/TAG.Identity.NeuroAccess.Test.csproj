@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Paiwise" Version="3.0.0" />
+    <PackageReference Include="Paiwise" Version="3.0.2" />
     <PackageReference Include="Waher.Events.Console" Version="1.2.1" />
-    <PackageReference Include="Waher.Persistence.Files" Version="1.15.0" />
+    <PackageReference Include="Waher.Persistence.Files" Version="1.15.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.14.0-preview-25107-01" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.14.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,22 +31,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="1.7.0-preview.25167.10" />
+    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="1.7.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.Analyzers" Version="3.9.0-preview.25167.10">
+    <PackageReference Update="MSTest.Analyzers" Version="3.9.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.TestAdapter" Version="3.9.0-preview.25167.10" />
+    <PackageReference Update="MSTest.TestAdapter" Version="3.9.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.TestFramework" Version="3.9.0-preview.25167.10" />
+    <PackageReference Update="MSTest.TestFramework" Version="3.9.1" />
   </ItemGroup>
 
 </Project>
