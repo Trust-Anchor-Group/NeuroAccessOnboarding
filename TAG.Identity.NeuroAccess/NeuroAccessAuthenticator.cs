@@ -1,6 +1,7 @@
 ﻿using Paiwise;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Waher.Content;
 using Waher.Events;
@@ -79,7 +80,7 @@ namespace TAG.Identity.NeuroAccess
 		/// <returns>How well the application is handled by the service.</returns>
 		public Grade Supports(IIdentityApplication Application)
 		{
-			if (string.IsNullOrWhiteSpace(onboardingNeuron) || Application.NrPhotos != 0)
+			if (string.IsNullOrWhiteSpace(onboardingNeuron))
 				return Grade.NotAtAll;
 
 			bool HasEMail = !string.IsNullOrEmpty(Application.PersonalInformation.EMail);
@@ -202,10 +203,31 @@ namespace TAG.Identity.NeuroAccess
 
 			try
 			{
-				await Expression.EvalAsync(
-					"Account:=Waher.Service.IoTBroker.XmppServerModule.GetAccountAsync(" + Expression.ToString(AccountName) + ");" +
-					"Account.EMail:=" + Expression.ToString(Application.PersonalInformation.EMail) + ";" +
-					"UpdateObject(Account)", new Variables());
+				StringBuilder sb = new StringBuilder();
+
+				sb.Append("Account:=Waher.Service.IoTBroker.XmppServerModule.GetAccountAsync(");
+				sb.Append(Expression.ToString(AccountName));
+				sb.AppendLine(");");
+
+				if (!string.IsNullOrEmpty(Application.PersonalInformation.EMail))
+				{
+					sb.Append("Account.EMail:=");
+					sb.Append(Expression.ToString(Application.PersonalInformation.EMail));
+					sb.AppendLine(";");
+					sb.AppendLine("Account.EMailVerified:=NowUtc;");
+				}
+
+				if (!string.IsNullOrEmpty(Application.PersonalInformation.Phone))
+				{
+					sb.Append("Account.PhoneNr:=");
+					sb.Append(Expression.ToString(Application.PersonalInformation.Phone));
+					sb.AppendLine(";");
+					sb.AppendLine("Account.PhoneNrVerified:=NowUtc;");
+				}
+
+				sb.AppendLine("UpdateObject(Account)");
+
+				await Expression.EvalAsync(sb.ToString(), new Variables());
 			}
 			catch (Exception ex)
 			{
