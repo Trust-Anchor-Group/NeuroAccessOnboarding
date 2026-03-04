@@ -69,14 +69,14 @@ namespace TAG.Identity.NeuroAccess.Test
 				new("EMAIL", "test@example.com"),
 				new("JID", "test@example.com"),
 			];
-			PersonalInformation PI = new PersonalInformation()
+			PersonalInformation PI = new()
 			{
 				Country = "BR",
 				Phone = "+155512345678",
 				EMail = "test@example.com",
 				Jid = "test@example.com"
 			};
-			IIdentityApplication Application = new IdentityApplication(string.Empty, string.Empty, PI, Claims, []);
+			IIdentityApplication Application = new IdentityApplication(string.Empty, string.Empty, false, PI, Claims, [], null);
 			IIdentityAuthenticatorService Authenticator = Types.FindBest<IIdentityAuthenticatorService, IIdentityApplication>(
 				Application);
 			
@@ -94,14 +94,14 @@ namespace TAG.Identity.NeuroAccess.Test
 				new("EMAIL", "test@example.com"),
 				new("JID", "test@example.com"),
 			];
-			PersonalInformation PI = new PersonalInformation()
+			PersonalInformation PI = new()
 			{
 				Country = "BR",
 				Phone = "+155512345678",
 				EMail = "test@example.com",
 				Jid = "test@example.com"
 			};
-			IIdentityApplication Application = new IdentityApplication(string.Empty, string.Empty, PI, Claims, []);
+			IIdentityApplication Application = new IdentityApplication(string.Empty, string.Empty, false, PI, Claims, [], null);
 			IIdentityAuthenticatorService Authenticator = Types.FindBest<IIdentityAuthenticatorService, IIdentityApplication>(
 				Application);
 
